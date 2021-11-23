@@ -9,7 +9,9 @@ class ApplicationController < ActionController::Base
 
   skip_before_action :verify_authenticity_token
 
-  before_action :set_locale
+  around_action :switch_locale
+
+  # before_action :set_locale
   before_action :set_sentry_context
   before_action :record_page_view
 
@@ -26,8 +28,17 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_locale
-    I18n.locale = Setting.site_locale
+  # def set_locale
+  #   I18n.locale = Setting.site_locale
+  # end
+
+  def switch_locale(&action)
+    locale = params[:locale] || Setting.site_locale
+    I18n.with_locale(locale, &action)
+  end
+
+  def default_url_options(options={})
+    { :locale => params[:locale] }
   end
 
   def set_sentry_context
