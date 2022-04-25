@@ -3,14 +3,17 @@
 
 .row
   - if logged_in_or_without_auth?(@release)
-    .col-md-8.col-lg-9
+    .col-md-7.col-lg-9.col-xl-10
       == render 'releases/body/app_limited'
       == render 'releases/body/metadata'
-      == render 'releases/body/changelog'
-      == render 'releases/body/devices'
-      == render 'releases/body/activity'
+      .row
+        .col-sm-12.col-xl-6
+          == render 'releases/body/changelog'
+          == render 'releases/body/devices'
+        .col-sm-12.col-xl-6
+          == render 'releases/body/activity'
 
-    .col-md-4.col-lg-3
+    .col-md-5.col-lg-3.col-xl-2
       - if user_signed_in?
         a.btn.btn-success.btn-block.mb-3 href="#{new_channel_release_path(@channel)}" = t('releases.new.title')
       == render 'releases/sidebar/version'
