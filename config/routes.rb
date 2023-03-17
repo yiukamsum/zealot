@@ -154,6 +154,8 @@ Rails.application.routes.draw do
   # API v1
   #############################################
   namespace :api do
+    mount Zealot::Engine => '/'
+
     namespace :apps do
       post 'upload', to: 'upload#create'
 
