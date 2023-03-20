@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::DebugFiles::DownloadController < Api::BaseController
+class API::DebugFiles::DownloadController < Api::BaseController
   before_action :validate_channel_key
   before_action :set_app
 

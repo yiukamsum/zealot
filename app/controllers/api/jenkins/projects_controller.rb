@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Jenkins::ProjectsController < Api::JenkinsController
+class API::Jenkins::ProjectsController < API::JenkinsController
   def index
     projects = []
     @client.job.list_all.each do |j|

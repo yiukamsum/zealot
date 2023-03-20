@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Jenkins::BuildController < Api::JenkinsController
+class API::Jenkins::BuildController < API::JenkinsController
   before_action :set_project_status
 
   def create

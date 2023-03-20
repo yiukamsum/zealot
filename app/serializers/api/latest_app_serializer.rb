@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::LatestAppSerializer < ApplicationSerializer
+class API::LatestAppSerializer < ApplicationSerializer
   # channel model based
   attributes :app_name, :bundle_id, :git_url
 

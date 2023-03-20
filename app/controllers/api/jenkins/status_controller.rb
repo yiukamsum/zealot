@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Jenkins::StatusController < Api::JenkinsController
+class API::Jenkins::StatusController < API::JenkinsController
   def show
     render json: project_status
   end

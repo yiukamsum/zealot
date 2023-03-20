@@ -19,6 +19,7 @@ gem 'lograge', '~> 0.12.0'
 # API
 gem 'grape', '~> 1.7'
 gem 'grape-swagger', '~> 1.5'
+gem 'grape-active_model_serializers', '1.5.2'
 gem 'grape-swagger-active_model_serializers', '0.1.1'
 gem 'active_model_serializers', '~> 0.10.13'
 gem 'graphql', '~> 2.0.19'

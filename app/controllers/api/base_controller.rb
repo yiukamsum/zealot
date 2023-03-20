@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::BaseController < ActionController::API
+class API::BaseController < ActionController::API
   include ActionView::Helpers::TranslationHelper
   respond_to :json
 

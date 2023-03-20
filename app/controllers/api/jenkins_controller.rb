@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::JenkinsController < ActionController::API
+class API::JenkinsController < ActionController::API
   before_action :set_client
 
   def project_status

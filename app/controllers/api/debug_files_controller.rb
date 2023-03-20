@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::DebugFilesController < Api::BaseController
+class API::DebugFilesController < Api::BaseController
   before_action :validate_user_token, only: :create
   before_action :validate_channel_key, only: %i[index create]
   before_action :set_debug_file, only: %i[show update destroy]
@@ -14,12 +14,12 @@ class Api::DebugFilesController < Api::BaseController
 
     @debug_files = @debug_files.where(device_type: @channel.device_type)
 
-    render json: @debug_files, each_serializer: Api::DebugFileSerializer
+    render json: @debug_files, each_serializer: API::DebugFileSerializer
   end
 
   # GET /api/debug_files/:id
   def show
-    render json: @debug_file, serializer: Api::DebugFileSerializer
+    render json: @debug_file, serializer: API::DebugFileSerializer
   end
 
   # POST /api/debug_files/upload
@@ -29,7 +29,7 @@ class Api::DebugFilesController < Api::BaseController
     @debug_file.device_type = @channel.device_type
     if @debug_file.save!
       DebugFileTeardownJob.perform_now(@debug_file)
-      render json: @debug_file, serializer: Api::DebugFileSerializer, status: :created
+      render json: @debug_file, serializer: API::DebugFileSerializer, status: :created
     else
       render json: @debug_file.errors
     end
@@ -38,7 +38,7 @@ class Api::DebugFilesController < Api::BaseController
   # PUT /api/debug_files/:id
   def update
     @debug_file.update!(debug_file_params)
-    render json: @debug_file, serializer: Api::DebugFileSerializer, status: :ok
+    render json: @debug_file, serializer: API::DebugFileSerializer, status: :ok
   rescue
     render json: @debug_file.errors
   end

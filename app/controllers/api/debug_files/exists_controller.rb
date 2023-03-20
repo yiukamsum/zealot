@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::DebugFiles::ExistsController < Api::BaseController
+class API::DebugFiles::ExistsController < Api::BaseController
   before_action :validate_channel_key, only: :version
 
   # GET /api/debug_files/exist/version

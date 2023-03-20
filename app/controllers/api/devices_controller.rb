@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::DevicesController < Api::BaseController
+class API::DevicesController < Api::BaseController
   before_action :validate_user_token
   before_action :set_device
 

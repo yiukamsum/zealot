@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Apps::UploadController < Api::BaseController
+class API::Apps::UploadController < Api::BaseController
   before_action :validate_user_token
   before_action :set_channel
 
@@ -27,7 +27,7 @@ class Api::Apps::UploadController < Api::BaseController
     perform_app_web_hook_job
 
     render json: @release,
-           serializer: Api::UploadAppSerializer,
+           serializer: API::UploadAppSerializer,
            status: :created
   end
 

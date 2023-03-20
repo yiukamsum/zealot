@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::VersionController < Api::BaseController
+class API::VersionController < Api::BaseController
   # GET /version
   def index
     render json: {
