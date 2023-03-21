@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Zealot
   class Engine < Grape::API
     prefix 'beta'
@@ -5,8 +7,12 @@ module Zealot
     formatter :json, Grape::Formatter::ActiveModelSerializers
 
     helpers do
-      def channel_key
-        @channel_key ||= Channel.find_by(key: params[:channel_key])
+      def channel
+        @channel ||= Channel.find_by(key: params[:channel_key])
+      end
+
+      def determine_channel!
+        error!('404 Not found channel', 404) unless channel
       end
 
       def current_user
@@ -19,12 +25,31 @@ module Zealot
     end
 
     mount App
-    mount Device
+    mount DebugFile
 
     add_swagger_documentation(
-      info: { title: I18n.t('grape.title') },
-      doc_version: '1.5',
-      token_owner: 'user_token'
+      doc_version: 'v1',
+      info: {
+        title: I18n.t('grape.title'),
+        description: I18n.t('grape.description'),
+        license: 'MIT',
+        license_url: 'https://github.com/tryzealot/zealot/blob/develop/LICENSE'
+      },
+      tags:[
+        { name: 'apps', description: I18n.t('grape.tags.apps') },
+        { name: 'debug_files', description: I18n.t('grape.tags.debug_files') },
+        { name: 'devices', description: I18n.t('grape.tags.devices') },
+      ],
+      mount_path: '/swagger.v1',
+      security_definitions: {
+        token: {
+          type: "apiKey",
+          name: "token",
+          in: "query"
+        }
+      }
     )
+
+    mount Device
   end
 end

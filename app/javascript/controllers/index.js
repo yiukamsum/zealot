@@ -18,4 +18,7 @@ application.register("destroy", DestroyController)
 import UDIDController from "./udid_controller"
 application.register("udid", UDIDController)
 
+import SwaggerController from "./swagger_controller"
+application.register("swagger", SwaggerController)
+
 import "./admin"

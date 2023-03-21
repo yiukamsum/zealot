@@ -1,17 +1,82 @@
 zh-CN:
   grape:
-    title: Zealot API 文档
+    title: Zealot API
+    description: Zealot API 详细使用文档
     global:
+      errors:
+        unauthorized: 用户未授权
+        not_found_channel: 未找到匹配的应用渠道
       params:
         token: 用户令牌 Token
         channel_key: 应用渠道 KEY
         per_page: 每页返回的数据条数
         page: 数据的页码
+        error: 错误的描述信息
+    tags:
+      apps: 应用管理
+      debug_files: 调试文件管理
+      devices: 测试设备管理
     apps:
       list:
-        description: 返回应用程序列表
+        description: 应用程序列表
       detail:
-        description: 返回指定 ID 的应用详情
+        description: 应用详情
+        params:
+          id: 应用 ID
+      upload:
+        description: 上传应用
+        params:
+          file: 应用文件
+          bundle_id: 应用包名
+          release_version: 主版本号
+          build_version: 内部版本号
+          release_type: 构建类型
+          source: 上传来源
+          changelog: 变更日志
+          git_commit: 应用 Git 提交哈希值
+          branch: Git 分支名称
+          ci_url: CI 服务构建地址
+          password: 开启访问密码
+      versions:
+        description: 应用版本列表
+      latest:
+        description: 应用最新版本
+        params:
+          bundle_id: 应用包名
+          release_version: 主版本号
+          build_version: 内部版本号
+      version_exist:
+        description: 检查当前版本是否存在
+        params:
+          bundle_id: 应用包名
+          git_commit: Git commit 哈希值
+          release_version: 主版本号
+          build_version: 内部版本号
+    debug_files:
+      list:
+        description: 调试文件列表
+      detail:
+        description: 调试文件详情
+        params:
+          id: 调试文件 ID
+      upload:
+        description: 上传调试文件
+        params:
+          file: 调试文件
+          release_version: 主版本号
+          build_version: 内部版本号
+      download:
+        description: 下载调试文件
+        params:
+          id: 调试文件 ID
+      update:
+        description: 更新调试文件
+        params:
+          id: 调试文件 ID
+      destroy:
+        description: 删除调试文件
+        params:
+          id: 调试文件 ID
     devices:
       update:
         description: 更新苹果测试设备

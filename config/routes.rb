@@ -92,6 +92,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :swagger, only: %i[index]
+
   #############################################
   # Health check
   #############################################

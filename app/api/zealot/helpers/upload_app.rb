@@ -1,37 +1,6 @@
 # frozen_string_literal: true
 
-class API::Apps::UploadController < Api::BaseController
-  before_action :validate_user_token
-  before_action :set_channel
-
-  # Upload an App
-  #
-  # POST /api/apps/upload
-  #
-  # @param token         [String]   required  user token
-  # @param file          [String]   required  file of app
-  # @param channel_key   [String]   optional  channel key of app
-  # @param name          [String]   optional  name of app
-  # @param password      [String]   optional  password to download app
-  # @param release_type  [String]   optional  release type(debug, beta, adhoc, release, enterprise etc)
-  # @param source        [String]   optional  upload source(api, cli, jenkins, gitlab-ci etc)
-  # @param changelog     [String]   optional  changelog
-  # @param branch        [String]   optional  git branch
-  # @param git_commit    [String]   optional  git commit
-  # @param ci_url        [String]   optional  ci url
-  # @return              [String]   json formatted app info
-  def create
-    create_or_update_release
-    perform_teardown_job
-    perform_app_web_hook_job
-
-    render json: @release,
-           serializer: API::UploadAppSerializer,
-           status: :created
-  end
-
-  private
-
+module Zealot::Helpers::UploadApp
   def create_or_update_release
     ActiveRecord::Base.transaction do
       new_record? ? create_new_app_build : create_build_from_exist_app
@@ -90,7 +59,7 @@ class API::Apps::UploadController < Api::BaseController
   end
 
   def and_app
-    permitted = params.permit :name
+    permitted = params.clone
     permitted[:name] ||= app_parser.name
 
     App.find_or_create_by permitted do |app|
@@ -105,22 +74,21 @@ class API::Apps::UploadController < Api::BaseController
     t("api.apps.upload.create.#{app_parser.release_type.downcase}", default: default_name)
   end
 
+  RELEASE_PARAMS = %i[
+    file release_type source branch git_commit
+    ci_url changelog devices custom_fields
+  ]
   def release_params
-    params.permit(
-      :file, :release_type, :source, :branch, :git_commit,
-      :ci_url, :changelog, :devices, :custom_fields
-    )
+    params.keey_if { |k, _| RELEASE_PARAMS.include?(k) }
   end
 
+  CHANNEL_PARAMS = %i[slug password git_url]
+
   def channel_params
-    params.permit(:slug, :password, :git_url)
+    params.keey_if { |k, _| CHANNEL_PARAMS.include?(k) }
   end
 
   def app_parser
     @app_parser ||= AppInfo.parse(params[:file].path)
-  end
-
-  def set_channel
-    @channel = Channel.find_by(key: params[:channel_key])
   end
 end
